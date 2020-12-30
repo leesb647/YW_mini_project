@@ -59,7 +59,7 @@ for i in range(0, 5):
 
 movie.loc[1,['장르']] == '코미디'
 
-# for i in range(movie.shape[0]):
+# for i in range(movie.shape[0]): # 멜로/로맨스 장르 분리해보려다가 생략함
   # movie.장르[i] = str(movie.장르[i]).replace('/', ',')
 
 for i in range(movie.shape[0]): # 행 개수만큼 276회 반복
@@ -69,7 +69,7 @@ movie.장르[0]
 
 movie.head()
 
-movie.장르[0][1]
+movie.장르[0][1]  # [행][열]
 
 movie
 
