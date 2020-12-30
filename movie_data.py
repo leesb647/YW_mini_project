@@ -63,7 +63,7 @@ movie.loc[1,['장르']] == '코미디'
   # movie.장르[i] = str(movie.장르[i]).replace('/', ',')
 
 for i in range(movie.shape[0]): # 행 개수만큼 276회 반복
-  movie.장르[i] = str(movie.장르[i]).split(',') # 장르 데이터를 ','와 '/'를 기준으로 나눠서 리스트로 변경. '|' 는 or 기호
+  movie.장르[i] = str(movie.장르[i]).split(',') # 장르 데이터를 ','을 기준으로 나눠서 리스트로 변경
 
 movie.장르[0]
 
@@ -71,5 +71,5 @@ movie.head()
 
 movie.장르[0][1]  # [행][열]
 
-movie
+print(movie)
 
