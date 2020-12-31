@@ -1,5 +1,7 @@
 from datetime import date
 import pandas as pd
+pd.set_option('display.max_row', 500)	# 데이터프레임 행(row)을 확장해서 출력
+pd.set_option('display.max_columns', 100)	# 데이터프레임 열(columns)을 확장해서 출력
 
 def error():
 	print("\nError:")
