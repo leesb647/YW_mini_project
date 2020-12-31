@@ -1,4 +1,5 @@
 from datetime import date
+import pandas as pd
 
 def error():
 	print("\nError:")
@@ -105,6 +106,9 @@ def execute():
 		print("="*20 + "{:^20}".format("현재 선택된 모든 옵션") + "="*20)
 		for key in preference:
 			print_selected_option(key, preference)
+
+movie = pd.read_excel('movie_data.xlsx', sheet_name='new_name')
+print(movie)
 
 if __name__ == "__main__":
 	execute()
