@@ -1,3 +1,4 @@
+# 참고 url : https://mino-park7.github.io/effective%20python%20study/2018/10/04/betterway22-minhopark/
 class User:
     def __init__(self, id, pwd):
         # 사용자 개인정보
