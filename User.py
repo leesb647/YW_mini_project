@@ -68,12 +68,12 @@ while True:
             user_list[idx].add_new_data(vMovie,vGenre,vDirector)
             user_list[idx].report_score(vMovie,vGenre,vDirector,vScore)
             user_list[idx].evaluate_movie(vMovie,vGenre,vDirector)
-            print("영화 :", user_list[idx].movie)
-            print("장르 :", user_list[idx].genre)
-            print("감독 :", user_list[idx].director)
-            print("영화 별점 :", user_list[idx].movie_scores)
-            print("장르 평균 별점 :", user_list[idx].avg_genre_score)
-            print("감독 평균 별점 :", user_list[idx].avg_director_score)
+            print("movie :", user_list[idx].movie)
+            print("genre :", user_list[idx].genre)
+            print("director :", user_list[idx].director)
+            print("movie_score :", user_list[idx].movie_scores)
+            print("avg_genre_score :", user_list[idx].avg_genre_score)
+            print("avg_director_score :", user_list[idx].avg_director_score)
 
     break_code = int(input("로그아웃하고 싶으시면 0번, 영화 추천을 계속 받고 싶으시면 1번을 입력하세요 :"))
     if break_code == 0:
