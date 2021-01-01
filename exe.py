@@ -20,6 +20,10 @@ if __name__ == "__main__":
 			else:
 				continue
 		elif movie_website.isUserAdministrator():
+			print("Admin page")
+			break
 			pass
 		else:
+			print("User page")
+			break
 			pass

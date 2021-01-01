@@ -4,8 +4,7 @@ import Administrator
 class WebSite:
 	opt_list = ['나가기', '회원가입', '로그인', '로그아웃']
 	def __init__(self):
-		self.admins = []
-		self.users = dict()
+		self.users = {}
 		self.user = None
 		self.movie_data = None
 		self.load_data()
@@ -39,10 +38,25 @@ class WebSite:
 			print("축하합니다 ", id, "님")
 			print("회원가입 완료되었습니다.")
 			break
-		pass
 
 	def sign_in(self):
-		pass
+		while True:
+			id = input("아이디를 입력해주세요: ")
+			pwd = input("비밀번호를 입력해주세요: ")
+			if id not in self.users:
+				print("없는 아이디 입니다.")
+			else:
+				if self.users[id].pwd != pwd:
+					print("비밀번호가 틀립니다")
+				else:
+					print("로그인에 성긍하였습니다.")
+					self.user = self.users[id]
+					break
+			self.print_menu(["나가기", "다시하기"])
+			opt = int(input("선택해주세요: "))
+			if opt == 0:
+				break
+		
 
 	def sign_out(self):
 		pass
@@ -62,7 +76,7 @@ class WebSite:
 		pass
 
 	def isUserAdministrator(self):
-		return isinstance(user, Administrator.Administrator)
+		return not isinstance(self.user, User.User)
 
 	def load_data(self):
 		pass

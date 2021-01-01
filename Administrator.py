@@ -1,4 +1,5 @@
 class Adminstrator:
+	opt_list = []
 	def __init__(self, id, pwd, name):
 		self.id = id
 		self.pwd = pwd
