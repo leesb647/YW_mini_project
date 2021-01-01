@@ -54,6 +54,7 @@ class WebSite:
 				else:
 					print("로그인에 성긍하였습니다.")
 					self.user = self.users[id.upper()]
+
 					break
 			self.print_menu(["나가기", "다시하기"])
 			opt = int(input("선택해주세요: "))
