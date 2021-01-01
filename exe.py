@@ -6,4 +6,4 @@ if __name__ == "__main__":
 	#argv = sys.argv
 	#args_length = len(argv)
 	movie_website = WebSite.WebSite()
-	movie_website.show_start_page()
+	movie_website.execute()
