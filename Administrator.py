@@ -8,7 +8,7 @@ class Administrator:
 	def manage_data(self):
 		pass
 
-	def send_messege(self):
+	def send_message(self):
 		pass
 
 	def show_all_users(self):

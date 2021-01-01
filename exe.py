@@ -1,5 +1,6 @@
 import WebSite
 import sys
+import os
 
 if __name__ == "__main__":
 	#argv = sys.argv
@@ -16,6 +17,7 @@ if __name__ == "__main__":
 			elif opt == 3:
 				movie_website.sign_out()
 			elif opt == 0:
+				movie_website.save_data()
 				break
 			else:
 				continue
