@@ -20,14 +20,16 @@ class Administrator:
 		end_page = math.ceil(len(user_list) / 5)
 
 		while True:
-			print("\n{0:-^30}".format("유저 정보"))
+			print("=" * 80)
+			print("")
 			if page == end_page:
 				for i in range(5 * (end_page - 1), len(user_list)):
-					print(user_keys[i], user_list[user_keys[i]])
+					print("\t\t", user_keys[i], user_list[user_keys[i]], end="")
 			else:
 				for i in range(5 * (page - 1), 5 * page):
-					print(user_keys[i], user_list[user_keys[i]])
-			print("-" * 33)
+					print("\t\t", user_keys[i], user_list[user_keys[i]], end="")
+			print("\n")
+			print("=" * 80)
 			select = int(input("메뉴를 선택하세요( 0.나가기 / 1.이전 / 2.다음 )  : "))
 			if select == 0:
 				break
