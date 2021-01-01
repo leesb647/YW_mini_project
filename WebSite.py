@@ -50,7 +50,7 @@ class WebSite:
 				if self.users[id].pwd != pwd:
 					print("비밀번호가 틀립니다")
 				else:
-					print("로그인에 성긍하였습니다.")
+					print("로그인에 성공하였습니다.")
 					self.user = self.users[id]
 					break
 			self.print_menu(["나가기", "다시하기"])
