@@ -48,47 +48,33 @@ class User:
 
 user_list = []
 user_list_id = []
+break_code = 1
+
 id = input("ID를 입력하세요 : ")
 pwd = input("비밀번호를 입력하세요 : ")
 
-# for i in range(len(user_list)):
-#     if id not in user_list_id:
-user = User(id,pwd)
+user = User(id, pwd)
 user_list.append(user)
 user_list_id.append(id)
 
-for idx in range(len(user_list)):   # 인덱스를 찾아서 해당 인스턴스에 접근
-    if user_list[idx].id == id:
-        user_list[idx].add_new_data('명량','사극','김한민')
-        user_list[idx].report_score('명량','사극','김한민',4)
-        user_list[idx].evaluate_movie('명량','사극','김한민')
-        print("영화 :", user_list[idx].movie)
-        print("장르 :", user_list[idx].genre)
-        print("감독 :", user_list[idx].director)
-        print("영화 별점 :", user_list[idx].movie_scores)
-        print("장르 평균 별점 :", user_list[idx].avg_genre_score)
-        print("감독 평균 별점 :", user_list[idx].avg_director_score)
+while True:
+    vMovie = input('영화의 이름 : ')
+    vGenre = input('장르 : ')
+    vDirector = input('감독 : ')
+    vScore = int(input('별점 : '))
 
-for idx in range(len(user_list)):   # 인덱스를 찾아서 해당 인스턴스에 접근
-    if user_list[idx].id == id:
-        user_list[idx].add_new_data('명량','사극','김한민')
-        user_list[idx].report_score('명량','사극','김한민',2)
-        user_list[idx].evaluate_movie('명량','사극','김한민')
-        print("영화 :", user_list[idx].movie)
-        print("장르 :", user_list[idx].genre)
-        print("감독 :", user_list[idx].director)
-        print("영화 별점 :", user_list[idx].movie_scores)
-        print("장르 평균 별점 :", user_list[idx].avg_genre_score)
-        print("감독 평균 별점 :", user_list[idx].avg_director_score)
+    for idx in range(len(user_list)):   # 인덱스를 찾아서 해당 인스턴스에 접근
+        if user_list[idx].id == id:
+            user_list[idx].add_new_data(vMovie,vGenre,vDirector)
+            user_list[idx].report_score(vMovie,vGenre,vDirector,vScore)
+            user_list[idx].evaluate_movie(vMovie,vGenre,vDirector)
+            print("영화 :", user_list[idx].movie)
+            print("장르 :", user_list[idx].genre)
+            print("감독 :", user_list[idx].director)
+            print("영화 별점 :", user_list[idx].movie_scores)
+            print("장르 평균 별점 :", user_list[idx].avg_genre_score)
+            print("감독 평균 별점 :", user_list[idx].avg_director_score)
 
-for idx in range(len(user_list)):   # 인덱스를 찾아서 해당 인스턴스에 접근
-    if user_list[idx].id == id:
-        user_list[idx].add_new_data('신세계','범죄','박훈정')
-        user_list[idx].report_score('신세계','범죄','박훈정',5)
-        user_list[idx].evaluate_movie('신세계','범죄','박훈정')
-        print("영화 :", user_list[idx].movie)
-        print("장르 :", user_list[idx].genre)
-        print("감독 :", user_list[idx].director)
-        print("영화 별점 :", user_list[idx].movie_scores)
-        print("장르 평균 별점 :", user_list[idx].avg_genre_score)
-        print("감독 평균 별점 :", user_list[idx].avg_director_score)
+    break_code = int(input("로그아웃하고 싶으시면 0번, 영화 추천을 계속 받고 싶으시면 1번을 입력하세요 :"))
+    if break_code == 0:
+        break
