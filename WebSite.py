@@ -10,7 +10,70 @@ class WebSite:
 		self.user = None
 		self.movie_data = None
 		self.load_data()
-		print(len(self.users))
+
+	def execute(self):
+		self.show_start_page()
+
+	def show_start_page(self):
+		while True:
+			if self.user is None:
+				print("{:^80}".format("START PAGE"))
+				self.print_menu(self.opt_list)
+				opt = self.select_option()
+				if opt == -1:
+					continue
+				elif opt == 1:
+					self.sign_up()
+				elif opt == 2:
+					self.sign_in()
+				elif opt == 3:
+					self.sign_out()
+				elif opt == 0:
+					self.save_data()
+					break
+				else:
+					self.out_of_range_error()
+					continue
+			elif isinstance(self.user, Administrator.Administrator):
+				self.show_administrator_page()
+			else:
+				self.show_user_page()
+
+	def show_administrator_page(self):
+		while True:
+			print("{:^80}".format("ADMINISTRATOR PAGE"))
+			self.print_menu(Administrator.Administrator.opt_list)
+			opt = self.select_option()
+			if opt == -1:
+				continue
+			elif opt == 1:
+				pass
+			elif opt == 2:
+				self.user.show_all_users(self.users)
+			elif opt == 3:
+				pass
+			elif opt == 0:
+				self.sign_out()
+				break
+			else:
+				self.out_of_range_error()
+				continue
+
+	def show_user_page(self):
+		while True:
+			print("{:^80}".format("USER PAGE"))
+			self.print_menu(User.User.opt_list)
+			opt = self.select_option()
+			if opt == -1:
+				continue
+			elif opt == 1:
+				self.user.change_pwd()
+			elif opt == 0:
+				self.sign_out()
+				break
+			else:
+				self.out_of_range_error()
+				continue
 
 	def show_movie_recommendation_by_관객수(self):
 		pass
@@ -23,18 +86,37 @@ class WebSite:
 
 	def sign_up(self):
 		while True:
-			id = input("아이디를 입력해주세요: ")
-			if id.upper() in self.users:
-				print("동일한 아이디가 있습니다.")
+			id = input("아이디를 입력해주세요(특수문자 X): ")
+			if not id.isalnum():
+				print("error: 특수문자가 들어있습니다.")
 				continue
-			pwd = input("비밀번호를 입력해주세요: ")
-			name = input("이름을 선택해주세요: ")
-			self.print_menu(["나가기", "완료", "다시하기"])
-			opt = int(input("선택해주세요: "))
+			if id.upper() in self.users:
+				print("error: 동일한 아이디가 있습니다.")
+				continue
+			pwd = input("비밀번호를 입력해주세요(\\사용불가): ")
+			if '\\' in pwd:
+				print("error: \\ 문자가 들어있습니다.")
+				continue
+			name = input("이름을 입력해주세요: ")
+			if not name.isalpha():
+				print("error: 문자가 아닙니다.")
+			
+			menu = ["나가기", "완료", "다시하기"]
+			self.print_menu(menu)
+			while True:
+				opt = self.select_option()
+				if opt == -1:
+					continue
+				elif opt < 0 and opt >= len(menu):
+					self.out_of_range_error()
+					continue
+				else:
+					break
 			if opt == 0:
 				break
 			elif opt == 2:
 				continue
+
 			new_user = User.User(id, pwd, name)
 			self.users[id.upper()] = new_user
 			print("")
@@ -52,12 +134,20 @@ class WebSite:
 				if self.users[id.upper()].pwd != pwd:
 					print("비밀번호가 틀립니다")
 				else:
-					print("로그인에 성긍하였습니다.")
+					print("로그인에 성공하였습니다.")
 					self.user = self.users[id.upper()]
-
 					break
-			self.print_menu(["나가기", "다시하기"])
-			opt = int(input("선택해주세요: "))
+			menu = ["나가기", "다시하기"]
+			self.print_menu(menu)
+			while True:
+				opt = self.select_option()
+				if opt == -1:
+					continue
+				elif opt < 0 and opt >= len(menu):
+					self.out_of_range_error()
+					continue
+				else:
+					break
 			if opt == 0:
 				break
 		
@@ -73,30 +163,25 @@ class WebSite:
 				print("")
 			menu_str = str(i) + ". " + opt[i]
 			print("{:^15}".format(menu_str), end='')
-		print("{:^15}".format("0. 나가기"))
+		menu_str = "0. " + opt[0]
+		print("{:^15}".format(menu_str))
 		print("")
 		print("="*80)
 		print("")
 		pass
 
-	def isUserAdministrator(self):
-		return isinstance(self.user, Administrator.Administrator)
-
 	def load_data(self):
 		with open("data/user_data.txt", 'r') as f:
 			line = f.readline()
 			while line:
-				line = line.split(',')
+				line = line.split('\\')
 				id = line[0]
 				new_user = User.User(line[0], line[1], line[2])
-				line = f.readline()									# 영화 딕셔너리 데이터
-				self.load_dictionary_data(line, new_user.movie)
-				line = f.readline()									# 장르 딕셔너리 데이터
-				self.load_dictionary_data(line, new_user.genre)
-				line = f.readline()									# 감독 딕셔너리 데이터
-				self.load_dictionary_data(line, new_user.director)
-				line = f.readline()									# 다음 정보
+				self.load_dictionary_data(line[3], new_user.movie)
+				self.load_dictionary_data(line[4], new_user.genre)
+				self.load_dictionary_data(line[5], new_user.director)
 				self.users[id.upper()] = new_user
+				line = f.readline()
 
 	def load_dictionary_data(self, line, dict):
 		if not line.startswith("N/A"):
@@ -107,24 +192,37 @@ class WebSite:
 				value = float(key_value[1])
 				dict[key] = value
 
-
 	def save_data(self):
 		with open("data/user_data.txt", 'w') as f:
 			for id in self.users:
 				if isinstance(self.users[id], User.User):
-					f.write("{},{},{}".format(self.users[id].id, self.users[id].pwd, self.users[id].name))
+					f.write("{}\\{}\\{}\\".format(self.users[id].id, self.users[id].pwd, self.users[id].name))
+					self.save_dictionary_data(f, self.users[id].movie)
+					self.save_dictionary_data(f, self.users[id].genre)
+					self.save_dictionary_data(f, self.users[id].director)
 					f.write("\n")
-					self.write_dictionary_data(f, self.users[id].movie)
-					self.write_dictionary_data(f, self.users[id].genre)
-					self.write_dictionary_data(f, self.users[id].director)
 
-	def write_dictionary_data(self, file, dict):
+	def save_dictionary_data(self, file, dict):
 		if len(dict) == 0:
-			file.write("N/A\n")
+			file.write("N/A\\")
 		else:
 			for key, value in dict.items():
 				file.write("{}:{}".format(key, value),end=',')
-			file.write("\n")
+			file.write("\\")
+	
+	def select_option(self):
+		try:
+			opt = int(input("메뉴를 선택해주세요: "))
+			return opt
+		except:
+			print("error: 숫자가 아닙니다.")
+			print("다시 선택해주세요.")
+			return -1
+
+	def out_of_range_error(self):
+		print("error: 범위를 벗어났습니다.")
+		print("다시 선택해주세요.")
+		print("")
 
 
-		
+

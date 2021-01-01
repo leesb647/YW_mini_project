@@ -1,6 +1,7 @@
 import math
 
 class Administrator:
+	opt_list = ["로그아웃", "데이터 관리하기", "유저목록", "공지사항 보내기"]
 	def __init__(self, id, pwd, name):
 		self.id = id
 		self.pwd = pwd
