@@ -2,9 +2,10 @@ import User
 import Administrator
 
 class WebSite:
-	opt_list = ['나가기', '회원가입', '로그인', '로그아웃']
+	opt_list = ['나가기', '회원가입', '로그인']
 	def __init__(self):
-		self.users = {}
+		admin = Administrator.Administrator('YW', '1234', '영우')
+		self.users = {admin.id: admin}
 		self.user = None
 		self.movie_data = None
 		self.load_data()
