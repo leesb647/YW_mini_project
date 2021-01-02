@@ -2,7 +2,7 @@ from collections import defaultdict
 
 # 참고 url : https://mino-park7.github.io/effective%20python%20study/2018/10/04/betterway22-minhopark/
 class User:
-	opt_list=["로그아웃", "비밀번호 변경하기"]
+	opt_list=["로그아웃", "비밀번호 변경하기", "영화추천 보기", "별점 주기"]
 	def __init__(self, id, pwd, name):
 		# 사용자 개인정보
 		self.id = id

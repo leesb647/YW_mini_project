@@ -1,5 +1,7 @@
 import User
 import Administrator
+import pandas as pd
+import math
 
 class WebSite:
 	opt_list = ['나가기', '회원가입', '로그인']
@@ -8,7 +10,7 @@ class WebSite:
 		admin = Administrator.Administrator('YW', '1234', '영우')
 		self.users = {admin.id: admin}
 		self.user = None
-		self.movie_data = None
+		self.movie_data = self.load_movie_data()
 		self.load_data()
 
 	def execute(self):
@@ -68,6 +70,10 @@ class WebSite:
 				continue
 			elif opt == 1:
 				self.user.change_pwd()
+			elif opt == 2:
+				self.show_movie_recommendation_page()
+			elif opt == 3:
+				pass
 			elif opt == 0:
 				self.sign_out()
 				break
@@ -75,8 +81,56 @@ class WebSite:
 				self.out_of_range_error()
 				continue
 
-	def show_movie_recommendation_by_관객수(self):
-		pass
+	def show_movie_recommendation_page(self):
+		while True:
+			print("{:^80}".format("RECOMMENDATION PAGE"))
+			menu = ["나가기", "관객수", "장르", "감독"]
+			self.print_menu(menu)
+			opt = self.select_option()
+			if opt == -1:
+				continue
+			elif opt == 1:
+				self.show_movie_recommendation_by_attendance()
+			elif opt == 2:
+				self.show_movie_recommendation_by_genre()
+			elif opt == 3:
+				self.show_movie_recommendation_by_attendance()
+			elif opt == 0:
+				break
+			else:
+				self.out_of_range_error()
+				continue
+	def show_movie_recommendation_by_attendance(self):
+		current_page = 1
+		end_page = math.ceil(len(self.movie_data) / 10)
+		while True:
+			self.show_table(current_page, end_page)
+			if current_page == 1:
+				menu = ["나가기", "다음"]
+				self.print_menu(menu)
+			elif current_page == end_page:
+				menu == ["나가기", "이전"]
+				self.print_menu(menu)
+			else:
+				menu = ["나가기", "이전", "다음"]
+				self.print_menu(menu)
+			opt = self.select_option()
+
+			if opt == -1:
+				continue
+			elif opt < 0 or opt >= len(menu):
+				self.out_of_range_error()
+				continue
+
+			if menu[opt] == "나가기":
+				break
+			elif menu[opt] == "다음":
+				current_page += 1
+			elif menu[opt] == "이전":
+				current_page -= 1
+			else:
+				self.out_of_range_error()
+				continue
 
 	def show_movie_recommendation_by_genre(self):
 		pass
@@ -224,5 +278,20 @@ class WebSite:
 		print("다시 선택해주세요.")
 		print("")
 
+	def load_movie_data(self):
+		df = pd.read_excel("data/movie_data.xlsx", sheet_name = 'movie_data')
+		return df 
 
-
+	def show_table(self, current_page, end_page):
+		start_idx = (current_page - 1) * 10
+		if current_page == end_page:
+			end_idx = len(self.movie_data) % 10
+		else:
+			end_idx = (current_page * 10) + 1
+		print("="*150)
+		print("{:^30}{:^20}{:^10}{:^10}{:^20}{:^10}{:^20}".format("영화명", "개봉일", "관객수", "제작국가", "장르", "제작상태", "감독"))
+		print("="*150)
+		for i in range(start_idx, end_idx):
+			print("{:^30}{:^23}{:^13}{:^12}{:^19}{:^13}{:^20}".format(self.movie_data.영화명[i], str(self.movie_data.개봉일[i].date()), str(self.movie_data.관객수[i]), self.movie_data.제작국가[i], self.movie_data.장르[i], self.movie_data.제작상태[i], self.movie_data.감독[i]))
+		print("="*150)
+		print("")
