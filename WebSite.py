@@ -301,7 +301,6 @@ class WebSite:
 		print("{:^150}".format(page_number))
 		print("")
 
-
 	def show_all_users_info_page(self):
 		current_page = 1
 		end_page = (len(self.users)//10) + 1
@@ -342,7 +341,6 @@ class WebSite:
 	def show_change_pwd_page(self):
 		self.user.change_pwd()
 
-
 	def show_all_users_info_table(self, current_page, end_page):
 		start_idx = (current_page - 1) * 10
 		if current_page == end_page:
@@ -361,4 +359,3 @@ class WebSite:
 		page_number = str(current_page) + ' / ' + str(end_page)
 		print("{:^150}".format(page_number))
 		print("")
-
