@@ -51,7 +51,7 @@ class WebSite:
 			elif opt == 1:
 				pass
 			elif opt == 2:
-				self.user.show_all_users(self.users)
+				self.show_all_users_info_page()
 			elif opt == 3:
 				pass
 			elif opt == 0:
@@ -65,11 +65,11 @@ class WebSite:
 		while True:
 			print("{:^80}".format("USER PAGE"))
 			self.print_menu(User.User.opt_list)
-			opt = self.select_option()
+			opt = self.user.select_option()
 			if opt == -1:
 				continue
 			elif opt == 1:
-				self.user.change_pwd()
+				self.change_pwd_page()
 			elif opt == 2:
 				self.show_movie_recommendation_page()
 			elif opt == 3:
@@ -86,7 +86,7 @@ class WebSite:
 			print("{:^80}".format("RECOMMENDATION PAGE"))
 			menu = ["나가기", "관객수", "장르", "감독"]
 			self.print_menu(menu)
-			opt = self.select_option()
+			opt = self.user.select_option()
 			if opt == -1:
 				continue
 			elif opt == 1:
@@ -100,22 +100,25 @@ class WebSite:
 			else:
 				self.out_of_range_error()
 				continue
+
 	def show_movie_recommendation_by_attendance(self):
 		current_page = 1
-		end_page = math.ceil(len(self.movie_data) / 10)
+		end_page = (len(self.movie_data)//10) + 1
 		while True:
-			self.show_table(current_page, end_page)
+			self.show_movie_table(current_page, end_page)
 			if current_page == 1:
 				menu = ["나가기", "다음"]
 				self.print_menu(menu)
+				if end_page == 1:
+					menu = ["나가기"]
+					self.print_menu(menu)
 			elif current_page == end_page:
-				menu == ["나가기", "이전"]
+				menu = ["나가기", "이전"]
 				self.print_menu(menu)
 			else:
 				menu = ["나가기", "이전", "다음"]
 				self.print_menu(menu)
-			opt = self.select_option()
-
+			opt = self.user.select_option()
 			if opt == -1:
 				continue
 			elif opt < 0 or opt >= len(menu):
@@ -211,7 +214,7 @@ class WebSite:
 
 	def print_menu(self, opt):
 		print("")
-		print("="*80)
+		print("="*150)
 		for i in range(1, len(opt)):
 			if i % 5 == 1:
 				print("")
@@ -220,7 +223,7 @@ class WebSite:
 		menu_str = "0. " + opt[0]
 		print("{:^15}".format(menu_str))
 		print("")
-		print("="*80)
+		print("="*150)
 		print("")
 		pass
 
@@ -282,16 +285,80 @@ class WebSite:
 		df = pd.read_excel("data/movie_data.xlsx", sheet_name = 'movie_data')
 		return df 
 
-	def show_table(self, current_page, end_page):
+	def show_movie_table(self, current_page, end_page):
 		start_idx = (current_page - 1) * 10
 		if current_page == end_page:
-			end_idx = len(self.movie_data) % 10
+			end_idx = len(self.movie_data)
 		else:
-			end_idx = (current_page * 10) + 1
+			end_idx = current_page * 10
 		print("="*150)
 		print("{:^30}{:^20}{:^10}{:^10}{:^20}{:^10}{:^20}".format("영화명", "개봉일", "관객수", "제작국가", "장르", "제작상태", "감독"))
 		print("="*150)
 		for i in range(start_idx, end_idx):
 			print("{:^30}{:^23}{:^13}{:^12}{:^19}{:^13}{:^20}".format(self.movie_data.영화명[i], str(self.movie_data.개봉일[i].date()), str(self.movie_data.관객수[i]), self.movie_data.제작국가[i], self.movie_data.장르[i], self.movie_data.제작상태[i], self.movie_data.감독[i]))
 		print("="*150)
+		page_number = str(current_page) + ' / ' + str(end_page)
+		print("{:^150}".format(page_number))
 		print("")
+
+
+	def show_all_users_info_page(self):
+		current_page = 1
+		end_page = (len(self.users)//10) + 1
+		while True:
+			self.show_all_users_info_table(current_page, end_page)
+			if current_page == 1:
+				if end_page == 1:
+					menu = ["나가기"]
+					self.print_menu(menu)
+				else:
+					menu = ["나가기", "다음"]
+					self.print_menu(menu)
+				
+			elif current_page == end_page:
+				menu = ["나가기", "이전"]
+				self.print_menu(menu)
+			else:
+				menu = ["나가기", "이전", "다음"]
+				self.print_menu(menu)
+
+			opt = self.user.select_option()
+			if opt == -1:
+				continue
+			elif opt < 0 or opt >= len(menu):
+				self.out_of_range_error()
+				continue
+
+			if menu[opt] == "나가기":
+				break
+			elif menu[opt] == "다음":
+				current_page += 1
+			elif menu[opt] == "이전":
+				current_page -= 1
+			else:
+				self.out_of_range_error()
+				continue
+
+	def show_change_pwd_page(self):
+		self.user.change_pwd()
+
+
+	def show_all_users_info_table(self, current_page, end_page):
+		start_idx = (current_page - 1) * 10
+		if current_page == end_page:
+			end_idx = len(self.users)
+		else:
+			end_idx = current_page * 10
+		info = list(self.users.values())
+		print(start_idx)
+		print(end_idx)
+		print("="*150)
+		print("{:^20}{:^20}".format("ID", "이름"))
+		print("="*150)
+		for i in range(start_idx, end_idx):
+			print("{:^20}{:^20}".format(info[i].id, info[i].name))
+		print("="*150)
+		page_number = str(current_page) + ' / ' + str(end_page)
+		print("{:^150}".format(page_number))
+		print("")
+

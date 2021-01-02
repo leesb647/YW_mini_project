@@ -16,6 +16,15 @@ class User:
 		self.movie_scores = {}
 		self.avg_genre_score = {}
 		self.avg_director_score = {}
+	
+	def select_option(self):
+		try:
+			opt = int(input("메뉴를 선택해주세요: "))
+			return opt
+		except:
+			print("error: 숫자가 아닙니다.")
+			print("다시 선택해주세요.")
+			return -1
 
 	def change_pwd(self):
 		current_pwd = input("현재 비밀번호를 입력해주세요: ")
