@@ -1,5 +1,4 @@
 import math
-import WebSite
 
 class Administrator:
 	opt_list = ["로그아웃", "데이터 관리하기", "유저목록", "공지사항 보내기"]
