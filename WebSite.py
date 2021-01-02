@@ -4,7 +4,6 @@ import Administrator
 class WebSite:
 	opt_list = ['나가기', '회원가입', '로그인', '로그아웃']
 	def __init__(self):
-		self.admins = []
 		self.users = dict()
 		self.user = None
 		self.movie_data = None
