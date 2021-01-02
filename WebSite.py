@@ -2,6 +2,7 @@ import User
 import Administrator
 import pandas as pd
 import math
+import xlrd
 
 class WebSite:
 	opt_list = ['나가기', '회원가입', '로그인']
@@ -282,7 +283,7 @@ class WebSite:
 		print("")
 
 	def load_movie_data(self):
-		df = pd.read_excel("data/movie_data.xlsx", sheet_name = 'movie_data')
+		df = pd.read_excel("data/movie_data.xlsx", engine = "openpyxl", sheet_name = 'movie_data')
 		return df 
 
 	def show_movie_table(self, current_page, end_page):
