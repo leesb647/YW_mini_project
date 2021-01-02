@@ -3,6 +3,12 @@ import Administrator
 import pandas as pd
 import math
 import xlrd
+'''
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from bs4 import BeautifulSoup
+import time
+'''
 
 class WebSite:
 	opt_list = ['나가기', '회원가입', '로그인']
@@ -108,16 +114,16 @@ class WebSite:
 		while True:
 			self.show_movie_table(current_page, end_page)
 			if current_page == 1:
-				menu = ["나가기", "다음"]
+				menu = ["나가기", "다음", "소개"]
 				self.print_menu(menu)
 				if end_page == 1:
-					menu = ["나가기"]
+					menu = ["나가기", "소개"]
 					self.print_menu(menu)
 			elif current_page == end_page:
-				menu = ["나가기", "이전"]
+				menu = ["나가기", "이전", "소개"]
 				self.print_menu(menu)
 			else:
-				menu = ["나가기", "이전", "다음"]
+				menu = ["나가기", "이전", "다음", "소개"]
 				self.print_menu(menu)
 			opt = self.user.select_option()
 			if opt == -1:
@@ -132,6 +138,24 @@ class WebSite:
 				current_page += 1
 			elif menu[opt] == "이전":
 				current_page -= 1
+			elif menu[opt] == "소개":
+				menu2 = ["나가기"]
+				if current_page == end_page:
+					menu2 += [self.movie_data.영화명[i] for i in range((current_page - 1) * 10, len(self.movie_data))]
+				else:
+					menu2 += [self.movie_data.영화명[i] for i in range((current_page - 1) * 10, current_page * 10)]
+				
+				while True:
+					self.print_menu(menu2)
+					opt2 = self.user.select_option()
+					if opt2 == -1:
+						continue
+					elif opt2 == 0:
+						break
+					elif opt2 > 0 and opt2 < len(menu2):
+						self.show_movie_introduction(current_page, end_page, opt2)
+					else:
+						continue
 			else:
 				self.out_of_range_error()
 				continue
@@ -363,3 +387,25 @@ class WebSite:
 		print("{:^150}".format(page_number))
 		print("")
 
+	'''
+	def show_movie_introduction(self, current_page, end_page, opt):
+		index = (current_page - 1) * 10 + (opt - 1)
+		movie_name = "영화 " + self.movie_data.영화명[index] + " 정보"
+		options = webdriver.ChromeOptions()
+		options.add_argument('headless')
+		options.add_argument('window-size=1920x1080')
+		options.add_argument("disable-gpu")
+		wd = webdriver.Chrome(chrome_options=options)
+		wd.get("http://www.naver.com")
+		elem = wd.find_element_by_name('query')
+		elem.send_keys(movie_name)
+		elem.send_keys(Keys.RETURN)
+		soup = BeautifulSoup(wd.page_source, 'html.parser')
+		print("="*150)
+		print("{:^150}".format("소개"))
+		print("")
+		print(soup.select("p.text._content_text")[0].text)
+		print("")
+		print("="*150)
+		time.sleep(1)
+	'''

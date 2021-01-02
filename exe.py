@@ -6,7 +6,7 @@ if __name__ == "__main__":
 	if len(args) == 1:
 		movie_website = WebSite.WebSite()
 		movie_website.execute()
-	if args[1] == '-h':	# help 목록 출력
+	elif args[1] == '-h':	# help 목록 출력
 		print("usage: exe.py [option] ... [-c cmd | -m mod | file | -] [arg] ...")
 		print("Options and arguments (and corresponding environment variables):")
 		print("-h	: showing help list")
