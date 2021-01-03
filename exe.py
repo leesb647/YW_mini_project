@@ -19,3 +19,5 @@ if __name__ == "__main__":
 		print(line)
 		f.close()
 		sys.exit()
+	else:
+		print("error")
