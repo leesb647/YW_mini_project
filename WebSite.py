@@ -3,6 +3,10 @@ import Administrator
 import pandas as pd
 import math
 import xlrd
+import random
+from msvcrt import getch	# 키보드 입력 받는 getch() 함수를 사용하기 위해 import
+import time		# time.sleep(시간) 함수로 버퍼링 효과
+
 '''
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -80,7 +84,7 @@ class WebSite:
 			elif opt == 2:
 				self.show_movie_recommendation_page()
 			elif opt == 3:
-				pass
+				self.give_movie_star_rating()
 			elif opt == 0:
 				self.sign_out()
 				break
@@ -407,3 +411,34 @@ class WebSite:
 		print("="*150)
 		time.sleep(1)
 	'''
+
+	def give_movie_star_rating(self):
+		movie = random.choice(self.movie_data.영화명)	# 랜덤으로 영화를 결정
+		print("="*150)
+		print("{:^30}{:^20}{:^10}{:^10}{:^20}{:^10}{:^20}".format("영화명", "개봉일", "관객수", "제작국가", "장르", "제작상태", "감독"))
+		print("="*150)
+		# 랜덤으로 정해진 영화의 정보를 출력
+		for i in range(len(self.movie_data)):
+			if self.movie_data.영화명[i] == movie:
+				print("{:^30}{:^23}{:^13}{:^12}{:^19}{:^13}{:^20}".format(self.movie_data.영화명[i], str(self.movie_data.개봉일[i].date()), str(self.movie_data.관객수[i]), self.movie_data.제작국가[i], self.movie_data.장르[i], self.movie_data.제작상태[i], self.movie_data.감독[i]))
+		print("="*150)
+		print("")
+		print("{:^100}".format("영화 별점(방향키로 변경 후 엔터키를 입력, 종료하고 싶으시면 0번이나 esc를 입력하세요"))
+		n = 3
+		while True:
+			print("\t\t\t\t\t\t\t\t", end='')
+			print('{}{}'.format('★' * n, '☆' * (5 - n)), end='\r')
+			time.sleep(0.5)
+			key = str(ord(getch()))	# getch 함수로 방향키 및 엔터키를 입력받음
+			if key == '75' or key == '80':  # 75(left), 80(down)
+				if n != 1:
+					n -= 1
+			elif key == '77' or key == '72':  # 77(right), 72(up)
+				if n != 5:
+					n += 1
+			elif key == '13':  # 13(enter)
+				print("\t\t\t\t\t\t\t\t", end='')
+				print('{}{}'.format('★' * n, '☆' * (5 - n)), end='\n\n')
+				return n	# 영화의 별점 값(n)을 리턴
+			elif key == '27' or key == '48':  # 27(esc), 48(0)
+				break
