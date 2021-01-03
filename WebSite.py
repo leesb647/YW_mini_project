@@ -423,7 +423,7 @@ class WebSite:
 				print("{:^30}{:^23}{:^13}{:^12}{:^19}{:^13}{:^20}".format(self.movie_data.영화명[i], str(self.movie_data.개봉일[i].date()), str(self.movie_data.관객수[i]), self.movie_data.제작국가[i], self.movie_data.장르[i], self.movie_data.제작상태[i], self.movie_data.감독[i]))
 		print("="*150)
 		print("")
-		print("{:^100}".format("영화 별점(방향키로 변경 후 엔터키를 입력, 종료하고 싶으시면 0번이나 esc를 입력하세요"))
+		print("{:^100}".format("영화 별점(좌우(← →) 방향키로 변경, 입력하려면 enter, 종료하려면 0번이나 esc를 입력하세요)"))
 		n = 3
 		while True:
 			print("\t\t\t\t\t\t\t\t", end='')
