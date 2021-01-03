@@ -84,7 +84,7 @@ class WebSite:
 			elif opt == 2:
 				self.show_movie_recommendation_page()
 			elif opt == 3:
-				self.give_movie_star_rating()
+				self.show_rating_page()
 			elif opt == 0:
 				self.sign_out()
 				break
@@ -389,6 +389,7 @@ class WebSite:
 		print("{:^150}".format(page_number))
 		print("")
 
+
 	'''
 	def show_movie_introduction(self, current_page, end_page, opt):
 		index = (current_page - 1) * 10 + (opt - 1)
@@ -412,8 +413,39 @@ class WebSite:
 		time.sleep(1)
 	'''
 
-	def give_movie_star_rating(self):
+	def show_rating_page(self):
+		rating_list = ["나가기","선택 영화 별점 주기","랜덤 영화 별점 주기"]
+		while True:
+			print("{:^80}".format("RATING PAGE"))
+			self.print_menu(rating_list)
+			opt = self.user.select_option()
+			if opt == -1:
+				continue
+			elif opt == 1:
+				self.rate_selected_movie()
+			elif opt == 2:
+				self.rate_random_movie()
+			elif opt == 0:
+				break
+			else:
+				self.out_of_range_error()
+				continue
+
+	def rate_selected_movie(self):
+		while True:
+			movie = input("영화 이름을 입력하세요 : ")  # 영화명으로 영화를 선택
+			for i in range(len(self.movie_data)):
+				if self.movie_data.영화명[i] == movie:
+					self.rate_movie(movie)
+			if movie == '0':
+				break
+			print("영화 추천 데이터에 존재하지 않는 영화입니다. 다시 입력하거나 나가시려면 0번을 입력하세요.")
+
+	def rate_random_movie(self):
 		movie = random.choice(self.movie_data.영화명)	# 랜덤으로 영화를 결정
+		self.rate_movie(movie)
+
+	def rate_movie(self, movie):	# 영화에 별점을 부여하는 함수
 		print("="*150)
 		print("{:^30}{:^20}{:^10}{:^10}{:^20}{:^10}{:^20}".format("영화명", "개봉일", "관객수", "제작국가", "장르", "제작상태", "감독"))
 		print("="*150)
@@ -423,13 +455,13 @@ class WebSite:
 				print("{:^30}{:^23}{:^13}{:^12}{:^19}{:^13}{:^20}".format(self.movie_data.영화명[i], str(self.movie_data.개봉일[i].date()), str(self.movie_data.관객수[i]), self.movie_data.제작국가[i], self.movie_data.장르[i], self.movie_data.제작상태[i], self.movie_data.감독[i]))
 		print("="*150)
 		print("")
-		print("{:^100}".format("영화 별점(좌우(← →) 방향키로 변경, 입력하려면 enter, 종료하려면 0번이나 esc를 입력하세요)"))
+		print("{:^100}".format("영화 별점(좌우(← →) 방향키로 변경, 입력하려면 enter, 나가려면 0번이나 esc를 입력하세요)"))
 		n = 3
 		while True:
 			print("\t\t\t\t\t\t\t\t", end='')
 			print('{}{}'.format('★' * n, '☆' * (5 - n)), end='\r')
 			time.sleep(0.5)
-			key = str(ord(getch()))	# getch 함수로 방향키 및 엔터키를 입력받음
+			key = str(ord(getch()))  # getch 함수로 방향키 및 엔터키를 입력받음
 			if key == '75' or key == '80':  # 75(left), 80(down)
 				if n != 1:
 					n -= 1
@@ -439,6 +471,6 @@ class WebSite:
 			elif key == '13':  # 13(enter)
 				print("\t\t\t\t\t\t\t\t", end='')
 				print('{}{}'.format('★' * n, '☆' * (5 - n)), end='\n\n')
-				return n	# 영화의 별점 값(n)을 리턴
+				return n  # 영화의 별점 값(n)을 리턴
 			elif key == '27' or key == '48':  # 27(esc), 48(0)
 				break
