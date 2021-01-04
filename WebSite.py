@@ -64,7 +64,7 @@ class WebSite:
 			elif opt == 2:
 				self.show_all_users_info_page()
 			elif opt == 3:
-				pass
+				self.write_notice_page()
 			elif opt == 0:
 				self.sign_out()
 				break
@@ -85,6 +85,8 @@ class WebSite:
 				self.show_movie_recommendation_page()
 			elif opt == 3:
 				self.show_rating_page()
+			elif opt == 4:
+				self.show_notice_page()
 			elif opt == 0:
 				self.sign_out()
 				break
@@ -446,23 +448,18 @@ class WebSite:
 				self.user.out_of_range_error()
 				continue
 
-	def write_notice():
+	def write_notice_page(self):
 		while True:
-			print("user에게 보낼 공지사항을 입력하세요.", "입력을 마치려면 Ctrl  + z")
-			notice_input = [line.rstrip() for line in sys.stdin.readlines()]
-			print()
-			print("user에게 공지될 내용은 다음과 같습니다.")
-			print()
-			for i in notice_input:
-				print(i)
-			print()
-		menu = ['나가기', '다시하기', '완료']
-		self.print_menu(menu)
-		while True:
+			admin_notice = self.user.write_notice()
+			menu = ['나가기', '다시하기', '완료']
+			self.print_menu(menu)
 			opt = self.select_option()
 			if opt == 1:
 				continue
 			elif opt == 2:
+				for id in self.users:
+					if isinstance(self.users[id], User.User):
+						self.users[id].notice.extend(admin_notice)
 				break
 			elif opt == 0:
 				self.out_of_range_error()
@@ -485,5 +482,9 @@ class WebSite:
 			self.user.avg_genre_score[selected_movie.장르] = sum(self.user.genre[selected_movie.장르]) / len(self.user.genre[selected_movie.장르])
 			self.user.avg_director_score[selected_movie.감독] = sum(self.user.director[selected_movie.감독]) / len(self.user.director[selected_movie.감독])
 
+	def show_notice_page(self):
+		print("notice page")
+		for i in self.user.notice:
+			print(i)
 			
 

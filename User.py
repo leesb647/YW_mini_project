@@ -4,12 +4,13 @@ import time		# time.sleep(시간) 함수로 버퍼링 효과
 import random
 # 참고 url : https://mino-park7.github.io/effective%20python%20study/2018/10/04/betterway22-minhopark/
 class User:
-	opt_list=["로그아웃", "비밀번호 변경하기", "영화추천 보기", "별점 주기"]
+	opt_list=["로그아웃", "비밀번호 변경하기", "영화추천 보기", "별점 주기", "공지사항 보기"]
 	def __init__(self, id, pwd, name):
 		# 사용자 개인정보
 		self.id = id
 		self.pwd = pwd
 		self.name = name
+		self.notice = []
 		# 영화별, 장르별, 감독별 별점들이 담긴 리스트를 저장할 딕셔너리
 		self.movie = defaultdict(list)
 		self.genre = defaultdict(list)
