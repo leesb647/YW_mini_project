@@ -80,7 +80,7 @@ class WebSite:
 			if opt == -1:
 				continue
 			elif opt == 1:
-				self.change_pwd_page()
+				self.show_change_pwd_page()
 			elif opt == 2:
 				self.show_movie_recommendation_page()
 			elif opt == 3:
