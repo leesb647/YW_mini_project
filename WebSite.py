@@ -6,12 +6,12 @@ import xlrd
 import random
 from collections import defaultdict
 
-'''
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import time
-'''
+
 
 class WebSite:
 	opt_list = ['나가기', '회원가입', '로그인']
@@ -405,7 +405,7 @@ class WebSite:
 		print("")
 
 
-	'''
+	
 	def show_movie_introduction(self, current_page, end_page, opt):
 		index = (current_page - 1) * 10 + (opt - 1)
 		movie_name = "영화 " + self.movie_data.영화명[index] + " 정보"
@@ -426,7 +426,7 @@ class WebSite:
 		print("")
 		print("="*150)
 		time.sleep(1)
-	'''
+	
 
 	def show_rating_page(self):
 		rating_list = ["나가기","선택 영화 별점 주기","랜덤 영화 별점 주기"]
