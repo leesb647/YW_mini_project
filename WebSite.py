@@ -4,8 +4,7 @@ import pandas as pd
 import math
 import xlrd
 import random
-from msvcrt import getch	# 키보드 입력 받는 getch() 함수를 사용하기 위해 import
-import time		# time.sleep(시간) 함수로 버퍼링 효과
+from collections import defaultdict
 
 '''
 from selenium import webdriver
@@ -23,6 +22,7 @@ class WebSite:
 		self.user = None
 		self.movie_data = self.load_movie_data()
 		self.load_data()
+		self.movie_index_dict = self.get_movie_index_dict()
 
 	def execute(self):
 		self.show_start_page()
@@ -64,7 +64,7 @@ class WebSite:
 			elif opt == 2:
 				self.show_all_users_info_page()
 			elif opt == 3:
-				pass
+				self.write_notice_page()
 			elif opt == 0:
 				self.sign_out()
 				break
@@ -85,6 +85,8 @@ class WebSite:
 				self.show_movie_recommendation_page()
 			elif opt == 3:
 				self.show_rating_page()
+			elif opt == 4:
+				self.show_notice_page()
 			elif opt == 0:
 				self.sign_out()
 				break
@@ -271,12 +273,14 @@ class WebSite:
 
 	def load_dictionary_data(self, line, dict):
 		if not line.startswith("N/A"):
-			line = line.split(',')
+			line = line.split('*')
 			for i in range(len(line) - 1):
 				key_value = line[i].split(':')
 				key = key_value[0]
-				value = float(key_value[1])
-				dict[key] = value
+				values = key_value[1].split('@')
+				for i in range(len(values) - 1):
+					value = float(values[i])
+					dict[key].append(value)
 
 	def save_data(self):
 		with open("data/user_data.txt", 'w') as f:
@@ -292,8 +296,11 @@ class WebSite:
 		if len(dict) == 0:
 			file.write("N/A\\")
 		else:
-			for key, value in dict.items():
-				file.write("{}:{}".format(key, value),end=',')
+			for key, list in dict.items():
+				file.write("{}:".format(key))
+				for value in list:
+					file.write("{}@".format(value))
+				file.write("*")
 			file.write("\\")
 	
 	def select_option(self):
@@ -313,6 +320,14 @@ class WebSite:
 	def load_movie_data(self):
 		df = pd.read_excel("data/movie_data.xlsx", engine = "openpyxl", sheet_name = 'movie_data')
 		return df 
+
+	def get_movie_index_dict(self):
+		dict = defaultdict(int)
+		for i in range(len(self.movie_data)):
+			movie_name = self.movie_data.영화명[i]
+			dict[movie_name] = i
+		return dict
+
 
 	def show_movie_table(self, current_page, end_page):
 		start_idx = (current_page - 1) * 10
@@ -422,55 +437,54 @@ class WebSite:
 			if opt == -1:
 				continue
 			elif opt == 1:
-				self.rate_selected_movie()
+				rate, movie = self.user.rate_selected_movie(self.movie_data, self.movie_index_dict)
+				self.save_movie_rate(rate, movie)
 			elif opt == 2:
-				self.rate_random_movie()
+				rate, movie = self.user.rate_random_movie(self.movie_data, self.movie_index_dict)
+				self.save_movie_rate(rate, movie)
 			elif opt == 0:
 				break
 			else:
+				self.user.out_of_range_error()
+				continue
+
+	def write_notice_page(self):
+		while True:
+			admin_notice = self.user.write_notice()
+			menu = ['나가기', '다시하기', '완료']
+			self.print_menu(menu)
+			opt = self.select_option()
+			if opt == 1:
+				continue
+			elif opt == 2:
+				for id in self.users:
+					if isinstance(self.users[id], User.User):
+						self.users[id].notice.extend(admin_notice)
+				break
+			elif opt == 0:
 				self.out_of_range_error()
 				continue
 
-	def rate_selected_movie(self):
-		while True:
-			movie = input("영화 이름을 입력하세요 : ")  # 영화명으로 영화를 선택
-			for i in range(len(self.movie_data)):
-				if self.movie_data.영화명[i] == movie:
-					self.rate_movie(movie)
-			if movie == '0':
-				break
-			print("영화 추천 데이터에 존재하지 않는 영화입니다. 다시 입력하거나 나가시려면 0번을 입력하세요.")
+	def save_movie_rate(self, rate, selected_movie):
+		if selected_movie.영화명 not in self.user.movie:
+			self.user.movie[selected_movie.영화명].append(rate)
+			self.user.genre[selected_movie.장르].append(rate)
+			self.user.director[selected_movie.감독].append(rate)
+			self.user.avg_genre_score[selected_movie.장르] = sum(self.user.genre[selected_movie.장르]) / len(self.user.genre[selected_movie.장르])
+			self.user.avg_director_score[selected_movie.감독] = sum(self.user.director[selected_movie.감독]) / len(self.user.director[selected_movie.감독])
+		else:
+			prev_rate = self.movie[selected_movie.영화명][0]
+			self.user.movie[selected_movie.영화명][0] = rate
+			self.user.genre[selected_movie.장르].remove(prev_rate)
+			self.user.genre[selected_movie.장르].append(rate)
+			self.user.director[selected_movie.감독].remove(prev_rate)
+			self.user.director[selected_movie.감독].append(rate)
+			self.user.avg_genre_score[selected_movie.장르] = sum(self.user.genre[selected_movie.장르]) / len(self.user.genre[selected_movie.장르])
+			self.user.avg_director_score[selected_movie.감독] = sum(self.user.director[selected_movie.감독]) / len(self.user.director[selected_movie.감독])
 
-	def rate_random_movie(self):
-		movie = random.choice(self.movie_data.영화명)	# 랜덤으로 영화를 결정
-		self.rate_movie(movie)
+	def show_notice_page(self):
+		print("notice page")
+		for i in self.user.notice:
+			print(i)
+			
 
-	def rate_movie(self, movie):	# 영화에 별점을 부여하는 함수
-		print("="*150)
-		print("{:^30}{:^20}{:^10}{:^10}{:^20}{:^10}{:^20}".format("영화명", "개봉일", "관객수", "제작국가", "장르", "제작상태", "감독"))
-		print("="*150)
-		# 랜덤으로 정해진 영화의 정보를 출력
-		for i in range(len(self.movie_data)):
-			if self.movie_data.영화명[i] == movie:
-				print("{:^30}{:^23}{:^13}{:^12}{:^19}{:^13}{:^20}".format(self.movie_data.영화명[i], str(self.movie_data.개봉일[i].date()), str(self.movie_data.관객수[i]), self.movie_data.제작국가[i], self.movie_data.장르[i], self.movie_data.제작상태[i], self.movie_data.감독[i]))
-		print("="*150)
-		print("")
-		print("{:^100}".format("영화 별점(좌우(← →) 방향키로 변경, 입력하려면 enter, 나가려면 0번이나 esc를 입력하세요)"))
-		n = 3
-		while True:
-			print("\t\t\t\t\t\t\t\t", end='')
-			print('{}{}'.format('★' * n, '☆' * (5 - n)), end='\r')
-			time.sleep(0.5)
-			key = str(ord(getch()))  # getch 함수로 방향키 및 엔터키를 입력받음
-			if key == '75' or key == '80':  # 75(left), 80(down)
-				if n != 1:
-					n -= 1
-			elif key == '77' or key == '72':  # 77(right), 72(up)
-				if n != 5:
-					n += 1
-			elif key == '13':  # 13(enter)
-				print("\t\t\t\t\t\t\t\t", end='')
-				print('{}{}'.format('★' * n, '☆' * (5 - n)), end='\n\n')
-				return n  # 영화의 별점 값(n)을 리턴
-			elif key == '27' or key == '48':  # 27(esc), 48(0)
-				break
