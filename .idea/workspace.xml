@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="0b91c0ce-67c9-4db9-bde7-3f41f115c59c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebSite.py" beforeDir="false" afterPath="$PROJECT_DIR$/WebSite.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/user_data.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/user_data.txt" afterDir="false" />
     </list>
+=======
+<<<<<<< HEAD
+    <list default="true" id="755463f9-7254-4d3c-9111-620352b18f1c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/WebSite.py" beforeDir="false" afterPath="$PROJECT_DIR$/WebSite.py" afterDir="false" />
+    </list>
+=======
+    <list default="true" id="0b91c0ce-67c9-4db9-bde7-3f41f115c59c" name="Default Changelist" comment="" />
+>>>>>>> 65c5941cfdb49aecfd56b925d8a4da2070634cbd
+>>>>>>> bd02957b71532a806db0bb686905438690c0e460
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +24,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< HEAD
+  <component name="ProjectId" id="1mY1u9t5ye5kZQs09VUV9a8tiU7" />
+=======
   <component name="ProjectId" id="1ma4SM002s7JGXkfFQIstdsGE6C" />
+>>>>>>> 65c5941cfdb49aecfd56b925d8a4da2070634cbd
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -22,6 +36,14 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+<<<<<<< HEAD
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\git" />
+      <recent name="C:\git\mini_project" />
+    </key>
+=======
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../skkkrt/_pythonWS01/놀이터.py" />
   </component>
   <component name="RunManager" selected="Python.DictionaryEx01v01">
@@ -139,10 +161,21 @@
         <item itemvalue="Python.pythonEx05_05InnerFun02" />
       </list>
     </recent_temporary>
+>>>>>>> 65c5941cfdb49aecfd56b925d8a4da2070634cbd
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< HEAD
+      <changelist id="755463f9-7254-4d3c-9111-620352b18f1c" name="Default Changelist" comment="" />
+      <created>1609651590422</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1609651590422</updated>
+    </task>
+    <servers />
+  </component>
+=======
       <changelist id="0b91c0ce-67c9-4db9-bde7-3f41f115c59c" name="Default Changelist" comment="" />
       <created>1609718370015</created>
       <option name="number" value="Default" />
@@ -154,4 +187,5 @@
   <component name="Vcs.Log.Tabs.Properties">
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+>>>>>>> 65c5941cfdb49aecfd56b925d8a4da2070634cbd
 </project>
