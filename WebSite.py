@@ -364,7 +364,6 @@ class WebSite:
 			else:
 				menu = ["나가기", "이전", "다음"]
 				self.print_menu(menu)
-
 			opt = self.user.select_option()
 			if opt == -1:
 				continue
