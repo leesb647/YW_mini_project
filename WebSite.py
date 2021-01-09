@@ -17,8 +17,8 @@ class WebSite:
 	opt_list = ['나가기', '회원가입', '로그인']
 	
 	def __init__(self):
-		admin = Administrator.Administrator('YW', '1234', '영우')
-		self.users = {admin.id: admin}
+		self.admin = Administrator.Administrator('YW', '1234', '영우')
+		self.users = {self.admin.id: self.admin}
 		self.user = None
 		self.movie_data = self.load_movie_data()
 		self.load_data()
@@ -346,16 +346,15 @@ class WebSite:
 		print("")
 
 	def show_data_management_page(self):
-		admin = Administrator.Administrator('YW', '1234', '영우')
 		opt_list = ['나가기', '영화 추가하기', '영화 변경하기', '영화 삭제하기']
 		while True:
 			print("{:^80}".format("DATA MANAGEMENT PAGE"))
 			self.print_menu(opt_list)
-			opt = self.select_option()
+			opt = self.admin.select_option()
 			if opt == -1:
 				continue
 			elif opt == 1:
-				self.movie_data = admin.add_movie_data(self.movie_data)
+				self.movie_data = self.admin.add_movie_data(self.movie_data)
 			elif opt == 2:
 				pass
 			elif opt == 3:
