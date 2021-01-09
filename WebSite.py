@@ -60,7 +60,7 @@ class WebSite:
 			if opt == -1:
 				continue
 			elif opt == 1:
-				pass
+				self.show_data_management_page()
 			elif opt == 2:
 				self.show_all_users_info_page()
 			elif opt == 3:
@@ -339,11 +339,32 @@ class WebSite:
 		print("{:^30}{:^20}{:^10}{:^10}{:^20}{:^10}{:^20}".format("영화명", "개봉일", "관객수", "제작국가", "장르", "제작상태", "감독"))
 		print("="*150)
 		for i in range(start_idx, end_idx):
-			print("{:^30}{:^23}{:^13}{:^12}{:^19}{:^13}{:^20}".format(self.movie_data.영화명[i], str(self.movie_data.개봉일[i].date()), str(self.movie_data.관객수[i]), self.movie_data.제작국가[i], self.movie_data.장르[i], self.movie_data.제작상태[i], self.movie_data.감독[i]))
+			print("{:^30}{:^23}{:^13}{:^12}{:^19}{:^13}{:^20}".format(self.movie_data.영화명[i], str(self.movie_data.개봉일[i].date()), str(self.movie_data.관객수[i]), self.movie_data.제작국가[i], '{}'.format(self.movie_data.장르[i]), self.movie_data.제작상태[i], self.movie_data.감독[i]))
 		print("="*150)
 		page_number = str(current_page) + ' / ' + str(end_page)
 		print("{:^150}".format(page_number))
 		print("")
+
+	def show_data_management_page(self):
+		admin = Administrator.Administrator('YW', '1234', '영우')
+		opt_list = ['나가기', '영화 추가하기', '영화 변경하기', '영화 삭제하기']
+		while True:
+			print("{:^80}".format("DATA MANAGEMENT PAGE"))
+			self.print_menu(opt_list)
+			opt = self.select_option()
+			if opt == -1:
+				continue
+			elif opt == 1:
+				self.movie_data = admin.add_movie_data(self.movie_data)
+			elif opt == 2:
+				pass
+			elif opt == 3:
+				pass
+			elif opt == 0:
+				break
+			else:
+				self.out_of_range_error()
+				continue
 
 	def show_all_users_info_page(self):
 		current_page = 1
