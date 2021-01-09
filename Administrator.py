@@ -56,6 +56,7 @@ class Administrator:
 			else:
 				value = input('%s을(를) 입력하세요: ' %sel[code])
 				data.loc[data.index[-1], sel[code]] = value
+			print('\n', data.iloc[data.index[-1]], '\n')
 		print(data.tail)
 		return data
 
